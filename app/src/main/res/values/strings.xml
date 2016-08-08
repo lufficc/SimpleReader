@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SimpleReader</string>
+    <string name="title_activity_single_image">SingleImageActivity</string>
 </resources>

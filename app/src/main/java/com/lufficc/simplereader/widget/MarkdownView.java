@@ -11,6 +11,8 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.lufficc.simplereader.activity.SingleImageActivity;
+
 /**
  * Created by lcc_luffy on 2016/8/7.
  */
@@ -57,7 +59,7 @@ public class MarkdownView extends FrameLayout {
     private class JsInterface {
         @JavascriptInterface
         public void onImageClickListener(String src) {
-            Toast.makeText(getContext(), src, Toast.LENGTH_LONG).show();
+            SingleImageActivity.showImage(getContext(), src);
         }
     }
 
