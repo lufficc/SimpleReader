@@ -2,14 +2,13 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/activity_markdown"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lufficc.simplereader.MainActivity">
+    tools:context="com.lufficc.simplereader.activity.MarkdownActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <com.lufficc.simplereader.widget.MarkdownView
+        android:id="@+id/markdownView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 </android.support.constraint.ConstraintLayout>

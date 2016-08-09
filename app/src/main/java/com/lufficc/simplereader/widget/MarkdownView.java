@@ -3,13 +3,11 @@ package com.lufficc.simplereader.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.lufficc.simplereader.activity.SingleImageActivity;
 
@@ -19,6 +17,7 @@ import com.lufficc.simplereader.activity.SingleImageActivity;
 
 public class MarkdownView extends FrameLayout {
     private WebView webView;
+    private boolean pageFinished = false;
 
     public MarkdownView(Context context) {
         super(context);
@@ -35,8 +34,14 @@ public class MarkdownView extends FrameLayout {
         init(context);
     }
 
+    private String markdown;
+
     public void parseMarkdown(String markdown, boolean gfm) {
-        webView.loadUrl("javascript:parseMarkdown(\"" + markdown.replace("\n", "\\n").replace("\"", "\\\"").replace("'", "\\'") + "\", " + gfm + ")");
+        if (pageFinished) {
+            webView.loadUrl("javascript:parseMarkdown(\"" + markdown.replace("\n", "\\n").replace("\"", "\\\"").replace("'", "\\'") + "\", " + gfm + ")");
+        } else {
+            this.markdown = markdown;
+        }
     }
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
@@ -67,20 +72,11 @@ public class MarkdownView extends FrameLayout {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            if (onPageFinishedListener != null) {
-                onPageFinishedListener.onPageFinished();
+            pageFinished = true;
+            if (markdown != null) {
+                parseMarkdown(markdown, true);
+                markdown = null;
             }
         }
-
-    }
-
-    public void setOnPageFinishedListener(MarkdownView.onPageFinishedListener onPageFinishedListener) {
-        this.onPageFinishedListener = onPageFinishedListener;
-    }
-
-    private onPageFinishedListener onPageFinishedListener;
-
-    public interface onPageFinishedListener {
-        void onPageFinished();
     }
 }
