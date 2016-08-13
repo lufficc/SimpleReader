@@ -10,9 +10,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.lufficc.simplereader.R;
+import com.lufficc.simplereader.base.BaseActivity;
 import com.lufficc.simplereader.widget.TouchImageView;
 
-public class SingleImageActivity extends AppCompatActivity {
+import butterknife.BindView;
+
+public class SingleImageActivity extends BaseActivity {
+    @BindView(R.id.touchImageView)
     TouchImageView touchImageView;
 
     String url;
@@ -20,9 +24,7 @@ public class SingleImageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_image);
 
-        touchImageView = (TouchImageView) findViewById(R.id.touchImageView);
         url = getIntent().getStringExtra("url");
         Glide.with(this)
                 .load(url)
@@ -33,6 +35,11 @@ public class SingleImageActivity extends AppCompatActivity {
                         touchImageView.setImageBitmap(resource);
                     }
                 });
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_single_image;
     }
 
     public static void showImage(Context context, String url) {

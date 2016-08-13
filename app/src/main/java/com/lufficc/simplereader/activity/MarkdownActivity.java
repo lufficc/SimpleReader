@@ -8,7 +8,10 @@ import android.os.Bundle;
 import com.lufficc.simplereader.R;
 import com.lufficc.simplereader.widget.MarkdownView;
 
+import butterknife.BindView;
+
 public class MarkdownActivity extends AppCompatActivity {
+    @BindView(R.id.markdownView)
     MarkdownView markdownView;
     private String markdown;
 
@@ -16,7 +19,6 @@ public class MarkdownActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_markdown);
-        markdownView = (MarkdownView) findViewById(R.id.markdownView);
         markdown = getIntent().getStringExtra("markdown");
         markdownView.parseMarkdown(markdown, true);
     }
