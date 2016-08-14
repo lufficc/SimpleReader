@@ -28,7 +28,7 @@
         <activity
             android:name=".activity.MarkdownActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.WebViewActivity"></activity>
+        <activity android:name=".activity.WebViewActivity" />
     </application>
 
 </manifest>

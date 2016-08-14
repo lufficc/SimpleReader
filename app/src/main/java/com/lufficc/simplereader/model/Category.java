@@ -1,12 +1,13 @@
 package com.lufficc.simplereader.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by lcc_luffy on 2016/8/9.
  */
 
-public class Category extends BaseModel {
+public class Category extends BaseModel implements Serializable {
     private String name;
     private String description;
 

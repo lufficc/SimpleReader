@@ -21,6 +21,7 @@ public class MarkdownActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         markdown = getIntent().getStringExtra("markdown");
         markdownView.parseMarkdown(markdown, true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
 
     @Override
