@@ -68,7 +68,7 @@ public class ArticleFragment extends BaseFragment implements SwipeRefreshLayout.
 
     private void getData() {
         Api api = RetrofitManager.api();
-        Call<PagedResult<List<Article>>> call = api.getArticles();
+        Call<PagedResult<List<Article>>> call = api.getArticlesByCategory(category.getId());
         call.enqueue(new Callback<PagedResult<List<Article>>>() {
             @Override
             public void onResponse(Call<PagedResult<List<Article>>> call, Response<PagedResult<List<Article>>> response) {

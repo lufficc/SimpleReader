@@ -23,7 +23,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
         super(fm);
         this.categories.addAll(categories);
         for (Category category : categories) {
-            fragments.add(new ArticleFragment());
+            fragments.add(ArticleFragment.newInstance(category));
         }
     }
 
