@@ -14,6 +14,9 @@ import com.lufficc.simplereader.widget.MarkdownView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by lcc_luffy on 2016/8/9.
  */
@@ -43,11 +46,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.Holder> {
     }
 
     class Holder extends RecyclerView.ViewHolder {
+        @BindView(R.id.title)
         TextView title;
+
+        @BindView(R.id.description)
+        TextView description;
 
         Holder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.title);
+            ButterKnife.bind(this, itemView);
         }
 
         void bind(final Article article) {
@@ -58,6 +65,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.Holder> {
                 }
             });
             title.setText(article.getTitle());
+            description.setText(article.getDescription());
         }
     }
 }
