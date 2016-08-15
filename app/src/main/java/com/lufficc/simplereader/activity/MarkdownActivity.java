@@ -28,7 +28,7 @@ public class MarkdownActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         article_id = getIntent().getLongExtra("article_id", 0);
-        /*markdownView.parseMarkdown(markdown, true);*/
+        getMarkdown();
     }
 
     private void getMarkdown() {

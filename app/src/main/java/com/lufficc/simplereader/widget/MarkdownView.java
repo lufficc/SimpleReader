@@ -3,7 +3,6 @@ package com.lufficc.simplereader.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.view.NestedScrollingChild;
 import android.support.v4.view.NestedScrollingChildHelper;
 import android.util.AttributeSet;
 import android.webkit.JavascriptInterface;
@@ -16,7 +15,7 @@ import com.lufficc.simplereader.activity.SingleImageActivity;
  * Created by lcc_luffy on 2016/8/7.
  */
 
-public class MarkdownView extends WebView implements NestedScrollingChild {
+public class MarkdownView extends WebView {
     private boolean pageFinished = false;
     private String markdown;
     private NestedScrollingChildHelper mChildHelper;
@@ -63,9 +62,8 @@ public class MarkdownView extends WebView implements NestedScrollingChild {
         loadUrl("file:///android_asset/markdown.html");
     }
 
-    // NestedScrollingChild
 
-    @Override
+    /*@Override
     public void setNestedScrollingEnabled(boolean enabled) {
         mChildHelper.setNestedScrollingEnabled(enabled);
     }
@@ -108,71 +106,6 @@ public class MarkdownView extends WebView implements NestedScrollingChild {
     @Override
     public boolean dispatchNestedPreFling(float velocityX, float velocityY) {
         return mChildHelper.dispatchNestedPreFling(velocityX, velocityY);
-    }
-
-
-    private int mLastMotionY;
-
-    private final int[] mScrollOffset = new int[2];
-    private final int[] mScrollConsumed = new int[2];
-
-    private int mNestedYOffset;
-/*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        boolean result = false;
-
-        MotionEvent trackedEvent = MotionEvent.obtain(event);
-
-        final int action = MotionEventCompat.getActionMasked(event);
-
-        if (action == MotionEvent.ACTION_DOWN) {
-            mNestedYOffset = 0;
-        }
-
-        int y = (int) event.getY();
-
-        event.offsetLocation(0, mNestedYOffset);
-
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                mLastMotionY = y;
-                startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
-                result = super.onTouchEvent(event);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                int deltaY = mLastMotionY - y;
-
-                if (dispatchNestedPreScroll(0, deltaY, mScrollConsumed, mScrollOffset)) {
-                    deltaY -= mScrollConsumed[1];
-                    trackedEvent.offsetLocation(0, mScrollOffset[1]);
-                    mNestedYOffset += mScrollOffset[1];
-                }
-
-                int oldY = getScrollY();
-                mLastMotionY = y - mScrollOffset[1];
-                if (deltaY < 0) {
-                    int newScrollY = Math.max(0, oldY + deltaY);
-                    deltaY -= newScrollY - oldY;
-                    if (dispatchNestedScroll(0, newScrollY - deltaY, 0, deltaY, mScrollOffset)) {
-                        mLastMotionY -= mScrollOffset[1];
-                        trackedEvent.offsetLocation(0, mScrollOffset[1]);
-                        mNestedYOffset += mScrollOffset[1];
-                    }
-                }
-
-                trackedEvent.recycle();
-                result = super.onTouchEvent(trackedEvent);
-                break;
-            case MotionEvent.ACTION_POINTER_DOWN:
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                stopNestedScroll();
-                result = super.onTouchEvent(event);
-                break;
-        }
-        Log.i("main",y+"");
-        return result;
     }*/
 
     private class JsInterface {

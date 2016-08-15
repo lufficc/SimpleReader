@@ -11,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lufficc.simplereader.R;
-import com.lufficc.simplereader.adapter.SimpleAdapter;
+import com.lufficc.simplereader.activity.MarkdownActivity;
+import com.lufficc.simplereader.adapter.ArticleListAdapter;
 import com.lufficc.simplereader.api.Api;
 import com.lufficc.simplereader.model.Article;
 import com.lufficc.simplereader.model.Category;
@@ -30,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ArticleFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ArticleFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -39,9 +41,12 @@ public class ArticleFragment extends BaseFragment implements SwipeRefreshLayout.
 
     private Category category;
 
-    SimpleAdapter simpleAdapter;
+    private View noMoreDataView;
+
+    ArticleListAdapter adapter;
     private View rootView;
     private Unbinder unbinder;
+    private PagedResult<List<Article>> pagedResult;
 
     public static ArticleFragment newInstance(Category category) {
         ArticleFragment articleFragment = new ArticleFragment();
@@ -59,24 +64,56 @@ public class ArticleFragment extends BaseFragment implements SwipeRefreshLayout.
         }
         rootView = LayoutInflater.from(this.getContext()).inflate(R.layout.fragment_article, null);
         unbinder = ButterKnife.bind(this, rootView);
-
-
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(simpleAdapter = new SimpleAdapter());
+        initAdapter();
+        recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration());
         getData();
     }
 
+    private void initAdapter() {
+        adapter = new ArticleListAdapter();
+        adapter.setLoadingView(getActivity().getLayoutInflater().inflate(R.layout.laod_more_view, (ViewGroup) recyclerView.getParent(), false));
+        adapter.setOnLoadMoreListener(this);
+        adapter.openLoadMore(10, true);
+        adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+                MarkdownActivity.showMarkdown(view.getContext(), adapter.getData().get(i).getId());
+            }
+        });
+    }
+
     private void getData() {
         Api api = RetrofitManager.api();
-        Call<PagedResult<List<Article>>> call = api.getArticlesByCategory(category.getId());
+        Call<PagedResult<List<Article>>> call = api.getArticlesByCategory(category.getId(), pagedResult == null ? 0 : pagedResult.getNumber());
         call.enqueue(new Callback<PagedResult<List<Article>>>() {
             @Override
             public void onResponse(Call<PagedResult<List<Article>>> call, Response<PagedResult<List<Article>>> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getCode() == HttpStatus.OK) {
-                        simpleAdapter.setData(response.body().getContent());
+                    pagedResult = response.body();
+                    if (pagedResult.getCode() == HttpStatus.OK) {
+                        if (pagedResult.isFirst()) {
+                            if (pagedResult.getContent().isEmpty()) {
+                                if (noMoreDataView == null)
+                                    noMoreDataView = getActivity()
+                                            .getLayoutInflater()
+                                            .inflate(R.layout.no_more_view, (ViewGroup) recyclerView.getParent(), false);
+                                adapter.setEmptyView(true, noMoreDataView);
+                            } else {
+                                adapter.setNewData(pagedResult.getContent());
+                            }
+                        } else {
+                            adapter.notifyDataChangedAfterLoadMore(pagedResult.getContent(), !pagedResult.isLast());
+                            if (pagedResult.isLast()) {
+                                if (noMoreDataView == null)
+                                    noMoreDataView = getActivity()
+                                            .getLayoutInflater()
+                                            .inflate(R.layout.no_more_view, (ViewGroup) recyclerView.getParent(), false);
+                                adapter.addFooterView(noMoreDataView);
+                            }
+                        }
                     }
                 } else {
                     Log.i("main", "error," + response.code());
@@ -108,6 +145,17 @@ public class ArticleFragment extends BaseFragment implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
+        if (pagedResult != null)
+            pagedResult.setNumber(0);
+        adapter.removeAllFooterView();
+        getData();
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        if (pagedResult == null)
+            return;
+        pagedResult.setNumber(pagedResult.getNumber() + 1);
         getData();
     }
 }

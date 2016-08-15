@@ -11,6 +11,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by lufficc on 2016/8/9.
@@ -26,8 +27,11 @@ public interface Api {
     @GET("category")
     Call<Result<List<Category>>> getCategories();
 
-    @GET("category/{id}/article")
-    Call<PagedResult<List<Article>>> getArticlesByCategory(@Path("id") long category_id);
+    @GET("category/{id}/article?size=10&sort=createdAt,desc")
+    Call<PagedResult<List<Article>>> getArticlesByCategory(
+            @Path("id") long category_id,
+            @Query("page") int page
+    );
 
 
 }
