@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.lufficc.simplereader.R;
 import com.lufficc.simplereader.activity.MarkdownActivity;
 import com.lufficc.simplereader.model.Article;
+import com.lufficc.simplereader.model.Folder;
 import com.lufficc.simplereader.widget.MarkdownView;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
  */
 
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.Holder> {
-    List<Article> articles = new ArrayList<>();
+    private List<Article> articles = new ArrayList<>();
 
     public void setData(List<Article> articleList) {
         articles.clear();

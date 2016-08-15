@@ -18,6 +18,7 @@ import butterknife.Unbinder;
 
 public abstract class BaseActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
+    @Nullable
     protected Toolbar toolbar;
 
     private Unbinder unbinder;

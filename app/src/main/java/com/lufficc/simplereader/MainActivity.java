@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 
 import com.lufficc.simplereader.adapter.FragmentAdapter;
 import com.lufficc.simplereader.base.BaseActivity;
-import com.lufficc.simplereader.fragment.ArticleFragment;
 import com.lufficc.simplereader.model.Category;
 import com.lufficc.simplereader.model.Result;
 import com.lufficc.simplereader.net.RetrofitManager;
@@ -27,8 +26,6 @@ public class MainActivity extends BaseActivity {
     TabLayout tabLayout;
 
     FragmentAdapter fragmentAdapter;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +45,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<Result<List<Category>>> call, Throwable t) {
-
+                /*Snackbar.make(toolbar, t.toString(), Snackbar.LENGTH_SHORT).show();*/
             }
         });
 

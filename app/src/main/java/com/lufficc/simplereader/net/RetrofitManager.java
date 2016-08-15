@@ -20,7 +20,8 @@ public class RetrofitManager {
 
     private RetrofitManager() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://lufficc.ittun.com/api/")
+                /*.baseUrl("http://lufficc.ittun.com/api/")*/
+                .baseUrl("http://115.28.69.91/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

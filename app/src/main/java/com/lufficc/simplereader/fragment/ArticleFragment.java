@@ -3,7 +3,6 @@ package com.lufficc.simplereader.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +19,7 @@ import com.lufficc.simplereader.model.Category;
 import com.lufficc.simplereader.model.PagedResult;
 import com.lufficc.simplereader.net.RetrofitManager;
 import com.lufficc.simplereader.util.HttpStatus;
+import com.lufficc.simplereader.widget.DividerItemDecoration;
 
 import java.util.List;
 
@@ -57,12 +57,14 @@ public class ArticleFragment extends BaseFragment implements SwipeRefreshLayout.
         if (getArguments() != null) {
             category = (Category) getArguments().getSerializable("category");
         }
-
         rootView = LayoutInflater.from(this.getContext()).inflate(R.layout.fragment_article, null);
         unbinder = ButterKnife.bind(this, rootView);
+
+
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(simpleAdapter = new SimpleAdapter());
+        recyclerView.addItemDecoration(new DividerItemDecoration());
         getData();
     }
 
