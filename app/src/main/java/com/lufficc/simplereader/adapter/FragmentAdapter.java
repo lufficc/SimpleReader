@@ -8,11 +8,10 @@ import com.lufficc.simplereader.fragment.ArticleFragment;
 import com.lufficc.simplereader.model.Category;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by lcc_luffy on 2016/8/14.
+ * Created by lufficc on 2016/8/14.
  */
 
 public class FragmentAdapter extends FragmentPagerAdapter {

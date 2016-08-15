@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.lufficc.simplereader.MainActivity;
 import com.lufficc.simplereader.R;
 
 import butterknife.BindView;
@@ -13,7 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created by lcc_luffy on 2016/8/7.
+ * Created by lufficc on 2016/8/7.
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -29,6 +30,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutId());
         unbinder = ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(!(this instanceof MainActivity));
+        }
+
     }
 
     @Override

@@ -9,8 +9,6 @@ import android.widget.TextView;
 import com.lufficc.simplereader.R;
 import com.lufficc.simplereader.activity.MarkdownActivity;
 import com.lufficc.simplereader.model.Article;
-import com.lufficc.simplereader.model.Folder;
-import com.lufficc.simplereader.widget.MarkdownView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by lcc_luffy on 2016/8/9.
+ * Created by lufficc on 2016/8/9.
  */
 
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.Holder> {
@@ -62,7 +60,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.Holder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MarkdownActivity.showMarkdown(view.getContext(), article.getMarkdown());
+                    MarkdownActivity.showMarkdown(view.getContext(), article.getId());
                 }
             });
             title.setText(article.getTitle());

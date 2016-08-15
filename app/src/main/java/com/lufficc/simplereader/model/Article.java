@@ -11,15 +11,6 @@ public class Article extends BaseModel {
     private String originUrl;
     private Category category;
     private Folder folder;
-    private String markdown;
-
-    public String getMarkdown() {
-        return markdown;
-    }
-
-    public void setMarkdown(String markdown) {
-        this.markdown = markdown;
-    }
 
     public String getTitle() {
         return title;
